@@ -2,6 +2,7 @@ package com.example.game2048.Math;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -11,6 +12,13 @@ public class Matrix<T> {
     private final int rows;
     private final int columns;
     private final List<T> data;
+
+    // TODO: Special case when rows == 0, columns == 0 or both are == 0
+    public Matrix(int rows, int columns, T fillValue) {
+        this.rows = rows;
+        this.columns = columns;
+        this.data = new ArrayList<>(Collections.nCopies(this.getContainerSize(), fillValue));
+    }
 
     // TODO: Special case when rows == 0, columns == 0 or both are == 0
     public Matrix(int rows, int columns, Supplier<T> initializer) {
@@ -73,5 +81,13 @@ public class Matrix<T> {
 
     private int getContainerSize() {
         return this.rows * this.columns;
+    }
+
+    public void fill(T fillValue) {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                this.set(i, j, fillValue);
+            }
+        }
     }
 }
