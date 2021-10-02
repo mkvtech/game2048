@@ -1,27 +1,27 @@
 package com.example.game2048.Game;
 
 import com.example.game2048.Utilities.Direction;
+import com.example.game2048.Math.Matrix;
 import com.example.game2048.Math.IntegerMatrix;
-import com.example.game2048.Math.BooleanMatrix;
 
 import java.util.stream.Stream;
 
 public class TileGrid {
-    private final IntegerMatrix data;
-    private final BooleanMatrix mergedMap;
+    private final Matrix<Tile> tileMatrix;
 
     public TileGrid(int rows, int columns) {
-        this.data = new IntegerMatrix(rows, columns, 0);
-        this.mergedMap = new BooleanMatrix(rows, columns, false);
+        this.tileMatrix = new Matrix<>(rows, columns, () -> null);
     }
 
     public TileGrid(IntegerMatrix source) {
-        this.data = source;
-        this.mergedMap = new BooleanMatrix(source.getRows(), source.getColumns(), false);
+        this.tileMatrix = new Matrix<>(source.getRows(), source.getColumns(), (i, j) -> {
+            int value = source.get(i, j);
+            return value == 0 ? null : new Tile(value);
+        });
     }
 
-    public Stream<Integer> toFlatStream() {
-        return this.data.toFlatStream();
+    public Stream<Tile> toFlatStream() {
+        return this.tileMatrix.toFlatStream();
     }
 
     public void push(Direction direction) {
@@ -29,40 +29,37 @@ public class TileGrid {
 
         clearMergedMap();
 
-        for (int i = 0; i < this.data.getRows(); i++) {
+        for (int i = 0; i < this.tileMatrix.getRows(); i++) {
             pushRow(i);
         }
     }
 
     private void pushRow(int rowIndex) {
-        for (int columnIndex = 0; columnIndex < this.data.getColumns(); columnIndex++) {
-            if (this.data.get(rowIndex, columnIndex) != 0) {
+        for (int columnIndex = 0; columnIndex < this.tileMatrix.getColumns(); columnIndex++) {
+            if (this.tileMatrix.get(rowIndex, columnIndex) != null) {
                 pushTile(rowIndex, columnIndex);
             }
         }
     }
 
     private void pushTile(int rowIndex, int tileIndex) {
-        int currentTile = this.data.get(rowIndex, tileIndex);
+        Tile currentTile = this.tileMatrix.get(rowIndex, tileIndex);
 
         int farthestAvailableIndex = findFarthestAvailable(rowIndex, tileIndex);
         int farthestOccupiedIndex = farthestAvailableIndex - 1;
 
-        if (farthestOccupiedIndex != -1 && // If inside grid
-                !mergedMap.get(rowIndex, farthestOccupiedIndex) && // If it was not merged
-                this.data.get(rowIndex, farthestOccupiedIndex) == currentTile) { // If tile values are the same
-            this.data.set(rowIndex, farthestOccupiedIndex, currentTile * 2); // merge
-            this.mergedMap.set(rowIndex, farthestOccupiedIndex, true);
-            this.data.set(rowIndex, tileIndex, 0);
-        } else if (farthestAvailableIndex != tileIndex) {
-            this.data.set(rowIndex, farthestAvailableIndex, currentTile);
-            this.data.set(rowIndex, tileIndex, 0);
+        Tile farthestOccupiedTile = tileMatrix.tryGet(rowIndex, farthestOccupiedIndex);
+        if (isMergeable(currentTile, farthestOccupiedTile)) {
+            merge(rowIndex, tileIndex, farthestOccupiedTile);
+        } else if (farthestAvailableIndex != tileIndex) { // isMovable
+            tileMatrix.set(rowIndex, farthestAvailableIndex, currentTile); // move
+            tileMatrix.erase(rowIndex, tileIndex);
         }
     }
 
     private int findFarthestAvailable(int rowIndex, int startIndex) {
         for (int i = startIndex; i > 0; i--) {
-            if (this.data.get(rowIndex, i - 1) != 0) {
+            if (this.tileMatrix.get(rowIndex, i - 1) != null) {
                 return i;
             }
         }
@@ -70,7 +67,21 @@ public class TileGrid {
         return 0;
     }
 
+    private boolean isMergeable(Tile source, Tile destination) {
+        return destination != null && destination.isMergeableWith(source);
+    }
+
+    private void merge(int sourceRow, int sourceColumn, Tile destination) {
+        Tile source = tileMatrix.get(sourceRow, sourceColumn);
+        destination.merge(source);
+        tileMatrix.erase(sourceRow, sourceColumn);
+    }
+
     private void clearMergedMap() {
-        this.mergedMap.fill(false);
+        this.tileMatrix.forEach(tile -> {
+            if (tile != null) {
+                tile.clearMerged();
+            }
+        });
     }
 }

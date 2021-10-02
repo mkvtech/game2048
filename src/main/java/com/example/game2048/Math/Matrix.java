@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -67,8 +68,16 @@ public class Matrix<T> {
         return this.data.get(getIndex(i, j));
     }
 
+    public T tryGet(int i, int j) {
+        return isInBounds(i, j) ? get(i, j) : null;
+    }
+
     public T set(int i, int j, T value) {
         return this.data.set(getIndex(i, j), value);
+    }
+
+    public T erase(int i, int j) {
+        return set(i, j, null);
     }
 
     public Stream<T> toFlatStream() {
@@ -89,5 +98,17 @@ public class Matrix<T> {
                 this.set(i, j, fillValue);
             }
         }
+    }
+
+    public void forEach(Consumer<T> operation) {
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.columns; j++) {
+                operation.accept(this.get(i, j));
+            }
+        }
+    }
+
+    private boolean isInBounds(int i, int j) {
+        return i >= 0 && i < this.rows && j >= 0 && j < this.columns;
     }
 }

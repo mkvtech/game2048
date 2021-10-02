@@ -11,14 +11,16 @@ class TileGridTest {
     @Test
     public void testSizeBasedConstructor() {
         TileGrid tileGrid = new TileGrid(2, 2);
-        assertEquals(tileGrid.toFlatStream().toList(), List.of(0, 0, 0, 0 ));
+        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+        assertEquals(expected, List.of(0, 0, 0, 0 ));
     }
 
     @Test
     public void testSourceBasedConstructor() {
         IntegerMatrix source = new IntegerMatrix(new Integer[][] { { 1, 2 }, { 3, 4 } });
         TileGrid tileGrid = new TileGrid(source);
-        assertEquals(tileGrid.toFlatStream().toList(), List.of(1, 2, 3, 4 ));
+        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+        assertEquals(expected, List.of(1, 2, 3, 4 ));
     }
 
     @Test
@@ -32,7 +34,8 @@ class TileGridTest {
 
         tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
 
-        assertEquals(tileGrid.toFlatStream().toList(), List.of(
+        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+        assertEquals(expected, List.of(
                 2, 0, 0, 0,
                 4, 0, 0, 0,
                 4, 0, 0, 0,
@@ -50,7 +53,8 @@ class TileGridTest {
 
         tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
 
-        assertEquals(tileGrid.toFlatStream().toList(), List.of(
+        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+        assertEquals(expected, List.of(
                 2, 0, 0,
                 2, 0, 0,
                 2, 0, 0
@@ -68,7 +72,8 @@ class TileGridTest {
 
         tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
 
-        assertEquals(tileGrid.toFlatStream().toList(), List.of(
+        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+        assertEquals(expected, List.of(
                 4, 4, 0, 0,
                 8, 8, 0, 0,
                 4, 2, 4, 2,
