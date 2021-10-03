@@ -24,14 +24,26 @@ public class TileGrid {
         return this.tileMatrix.toFlatStream();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj.getClass() != this.getClass()) return false;
+
+        TileGrid otherTileGrid = (TileGrid) obj;
+
+        return this.tileMatrix.equals(otherTileGrid.tileMatrix);
+    }
+
     public void push(Direction direction) {
         // Will use 'direction' argument soon, stay tuned :>
 
-        clearMergedMap();
+        clearMerged();
 
         for (int i = 0; i < this.tileMatrix.getRows(); i++) {
             pushRow(i);
         }
+
+        clearMerged();
     }
 
     private void pushRow(int rowIndex) {
@@ -77,7 +89,7 @@ public class TileGrid {
         tileMatrix.erase(sourceRow, sourceColumn);
     }
 
-    private void clearMergedMap() {
+    private void clearMerged() {
         this.tileMatrix.forEach(tile -> {
             if (tile != null) {
                 tile.clearMerged();

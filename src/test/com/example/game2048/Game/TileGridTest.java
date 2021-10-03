@@ -1,6 +1,7 @@
 package com.example.game2048.Game;
 
 import com.example.game2048.Math.IntegerMatrix;
+import com.example.game2048.Utilities.Direction;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -32,7 +33,7 @@ class TileGridTest {
                 { 0, 2, 0, 2 }
         }));
 
-        tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
+        tileGrid.push(Direction.LEFT);
 
         List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
         assertEquals(expected, List.of(
@@ -51,7 +52,7 @@ class TileGridTest {
                 { 0, 0, 2 }
         }));
 
-        tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
+        tileGrid.push(Direction.LEFT);
 
         List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
         assertEquals(expected, List.of(
@@ -70,14 +71,44 @@ class TileGridTest {
                 { 2, 2, 4, 4 }
         }));
 
-        tileGrid.push(com.example.game2048.Utilities.Direction.LEFT);
+        tileGrid.push(Direction.LEFT);
 
-        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
-        assertEquals(expected, List.of(
-                4, 4, 0, 0,
-                8, 8, 0, 0,
-                4, 2, 4, 2,
-                4, 8, 0, 0
-        ));
+        TileGrid expected = new TileGrid(new IntegerMatrix(new Integer[][] {
+                { 4, 4, 0, 0 },
+                { 8, 8, 0, 0 },
+                { 4, 2, 4, 2 },
+                { 4, 8, 0, 0 }
+        }));
+
+        assertEquals(tileGrid, expected);
+    }
+
+    @Test
+    public void testPushInEveryDirection() {
+        IntegerMatrix original = new IntegerMatrix(new Integer[][] {
+                { 2, 0, 0, 0 },
+                { 2, 2, 0, 0 },
+                { 2, 0, 2, 0 },
+                { 0, 2, 0, 2 }
+        });
+
+        IntegerMatrix expected = new IntegerMatrix(new Integer[][] {
+                { 2, 0, 0, 0 },
+                { 4, 0, 0, 0 },
+                { 4, 0, 0, 0 },
+                { 4, 0, 0, 0 }
+        });
+
+        Direction.fromUpClockwise.forEach(direction -> {
+            original.rotateClockwiseInPlace();
+            expected.rotateClockwiseInPlace();
+
+            TileGrid tileGrid = new TileGrid(original);
+            tileGrid.push(direction);
+
+            TileGrid expectedTileGrid = new TileGrid(expected);
+
+            assertEquals(tileGrid, expectedTileGrid);
+        });
     }
 }

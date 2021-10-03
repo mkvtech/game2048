@@ -80,4 +80,22 @@ class MatrixTest {
         List<Boolean> values = booleanMatrix.toFlatStream().collect(Collectors.toList());
         assertEquals(values, Arrays.asList(false, false, true, false));
     }
+
+    @Test
+    public void testRotation() {
+        Matrix<Integer> originalMatrix = new Matrix<>(new Integer[][] {
+                { 1,  2,  3,  4 },
+                { 5,  6,  7,  8 },
+                { 9, 10, 11, 12 }
+        });
+
+        Matrix<Integer> rotatedMatrix = originalMatrix.rotateClockwise();
+
+        assertEquals(rotatedMatrix, new Matrix<>(new Integer[][] {
+                {  9, 5, 1 },
+                { 10, 6, 2 },
+                { 11, 7, 3 },
+                { 12, 8, 4 }
+        }));
+    }
 }

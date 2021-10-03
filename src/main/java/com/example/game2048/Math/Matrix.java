@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Matrix<T> {
-    private final int rows;
-    private final int columns;
-    private final List<T> data;
+    private int rows;
+    private int columns;
+    private List<T> data;
 
     // TODO: Special case when rows == 0, columns == 0 or both are == 0
     public Matrix(int rows, int columns, T fillValue) {
@@ -101,14 +102,39 @@ public class Matrix<T> {
     }
 
     public void forEach(Consumer<T> operation) {
+        forEachPosition((i, j) -> operation.accept(this.get(i, j)));
+    }
+
+    public void forEachPosition(BiConsumer<Integer, Integer> operation) {
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.columns; j++) {
-                operation.accept(this.get(i, j));
+                operation.accept(i, j);
             }
         }
     }
 
-    private boolean isInBounds(int i, int j) {
+    public Matrix<T> rotateClockwise() {
+        return new Matrix<>(columns, rows, (i, j) -> get(rows - 1 - j, i));
+    }
+    
+    public void rotateClockwiseInPlace() {
+        Matrix<T> temp = this.rotateClockwise();
+        this.data = temp.data;
+        this.rows = temp.rows;
+        this.columns = temp.columns;
+    }
+
+    public boolean isInBounds(int i, int j) {
         return i >= 0 && i < this.rows && j >= 0 && j < this.columns;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj.getClass() != this.getClass()) return false;
+
+        Matrix<T> otherMatrix = (Matrix<T>) obj;
+
+        return this.data.equals(otherMatrix.data);
     }
 }
