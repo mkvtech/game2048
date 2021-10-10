@@ -19,4 +19,8 @@ public class IntegerMatrix extends Matrix<Integer> {
     public IntegerMatrix(Integer[][] source) {
         super(source);
     }
+
+    public IntegerMatrix(IntegerMatrix other) {
+        super(other);
+    }
 }

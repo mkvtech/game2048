@@ -98,4 +98,15 @@ class MatrixTest {
                 { 12, 8, 4 }
         }));
     }
+
+    @Test
+    public void testAcceptsVector() {
+        IntegerMatrix matrix = new IntegerMatrix(5, 3, 0);
+
+        matrix.set(new Vector(3, 1), 5);
+        assertEquals(matrix.get(3, 1), 5);
+
+        matrix.set(0, 2, 7);
+        assertEquals(matrix.get(new Vector(0, 2)), 7);
+    }
 }

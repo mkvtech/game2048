@@ -26,61 +26,57 @@ class TileGridTest {
 
     @Test
     public void testPushLeft() {
-        TileGrid tileGrid = new TileGrid(new IntegerMatrix(new Integer[][] {
+        IntegerMatrix original = new IntegerMatrix(new Integer[][] {
                 { 2, 0, 0, 0 },
                 { 2, 2, 0, 0 },
                 { 2, 0, 2, 0 },
                 { 0, 2, 0, 2 }
-        }));
+        });
 
-        tileGrid.push(Direction.LEFT);
+        IntegerMatrix expected = new IntegerMatrix(new Integer[][] {
+                { 2, 0, 0, 0 },
+                { 4, 0, 0, 0 },
+                { 4, 0, 0, 0 },
+                { 4, 0, 0, 0 }
+        });
 
-        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
-        assertEquals(expected, List.of(
-                2, 0, 0, 0,
-                4, 0, 0, 0,
-                4, 0, 0, 0,
-                4, 0, 0, 0
-        ));
+        assertEqualsWhenPushedInAllDirections(original, expected);
     }
 
     @Test
     public void testPushTilesToEmptySlots() {
-        TileGrid tileGrid = new TileGrid(new IntegerMatrix(new Integer[][] {
+        IntegerMatrix original = new IntegerMatrix(new Integer[][] {
                 { 2, 0, 0 },
                 { 0, 2, 0 },
                 { 0, 0, 2 }
-        }));
+        });
 
-        tileGrid.push(Direction.LEFT);
+        IntegerMatrix expected = new IntegerMatrix(new Integer[][] {
+                { 2, 0, 0 },
+                { 2, 0, 0 },
+                { 2, 0, 0 }
+        });
 
-        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
-        assertEquals(expected, List.of(
-                2, 0, 0,
-                2, 0, 0,
-                2, 0, 0
-        ));
+        assertEqualsWhenPushedInAllDirections(original, expected);
     }
 
     @Test
     public void testPushTiles4IdenticalTiles() {
-        TileGrid tileGrid = new TileGrid(new IntegerMatrix(new Integer[][] {
+        IntegerMatrix original = new IntegerMatrix(new Integer[][] {
                 { 2, 2, 2, 2 },
                 { 4, 4, 4, 4 },
                 { 4, 2, 4, 2 },
                 { 2, 2, 4, 4 }
-        }));
+        });
 
-        tileGrid.push(Direction.LEFT);
-
-        TileGrid expected = new TileGrid(new IntegerMatrix(new Integer[][] {
+        IntegerMatrix expected = new IntegerMatrix(new Integer[][] {
                 { 4, 4, 0, 0 },
                 { 8, 8, 0, 0 },
                 { 4, 2, 4, 2 },
                 { 4, 8, 0, 0 }
-        }));
+        });
 
-        assertEquals(tileGrid, expected);
+        assertEqualsWhenPushedInAllDirections(original, expected);
     }
 
     @Test
@@ -99,16 +95,23 @@ class TileGridTest {
                 { 4, 0, 0, 0 }
         });
 
-        Direction.fromUpClockwise.forEach(direction -> {
-            original.rotateClockwiseInPlace();
-            expected.rotateClockwiseInPlace();
+        assertEqualsWhenPushedInAllDirections(original, expected);
+    }
 
-            TileGrid tileGrid = new TileGrid(original);
+    private void assertEqualsWhenPushedInAllDirections(IntegerMatrix original, IntegerMatrix expected) {
+        IntegerMatrix originalCopied = new IntegerMatrix(original);
+        IntegerMatrix expectedCopied = new IntegerMatrix(expected);
+
+        Direction.fromUpClockwise.forEach(direction -> {
+            originalCopied.rotateClockwiseInPlace();
+            expectedCopied.rotateClockwiseInPlace();
+
+            TileGrid tileGrid = new TileGrid(originalCopied);
             tileGrid.push(direction);
 
-            TileGrid expectedTileGrid = new TileGrid(expected);
+            TileGrid expectedTileGrid = new TileGrid(expectedCopied);
 
-            assertEquals(tileGrid, expectedTileGrid);
+            assertTrue(tileGrid.areTileValuesEqual(expectedTileGrid));
         });
     }
 }

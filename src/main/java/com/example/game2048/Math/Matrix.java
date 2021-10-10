@@ -57,6 +57,12 @@ public class Matrix<T> {
         this.columns = source.length == 0 ? 0 : source[0].length;
     }
 
+    public Matrix(Matrix<T> other) {
+        this.rows = other.rows;
+        this.columns = other.columns;
+        this.data = new ArrayList<>(other.data);
+    }
+
     public int getRows() {
         return this.rows;
     }
@@ -65,20 +71,34 @@ public class Matrix<T> {
         return columns;
     }
 
+    public Vector getSize() { return new Vector(rows, columns); }
+
     public T get(int i, int j) {
         return this.data.get(getIndex(i, j));
     }
 
+    public T get(Vector v) { return get(v.getI(), v.getJ()); }
+
     public T tryGet(int i, int j) {
         return isInBounds(i, j) ? get(i, j) : null;
+    }
+
+    public T tryGet(Vector position) {
+        return tryGet(position.getI(), position.getJ());
     }
 
     public T set(int i, int j, T value) {
         return this.data.set(getIndex(i, j), value);
     }
 
+    public T set(Vector v, T value) { return set(v.getI(), v.getJ(), value); }
+
     public T erase(int i, int j) {
         return set(i, j, null);
+    }
+
+    public T erase(Vector position) {
+        return set(position, null);
     }
 
     public Stream<T> toFlatStream() {
@@ -126,6 +146,10 @@ public class Matrix<T> {
 
     public boolean isInBounds(int i, int j) {
         return i >= 0 && i < this.rows && j >= 0 && j < this.columns;
+    }
+
+    public boolean isInBounds(Vector vector) {
+        return isInBounds(vector.getI(), vector.getJ());
     }
 
     @Override
