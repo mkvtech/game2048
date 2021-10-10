@@ -98,6 +98,18 @@ class TileGridTest {
         assertEqualsWhenPushedInAllDirections(original, expected);
     }
 
+    @Test
+    public void testCanBePushed() {
+        TileGrid tileGrid = new TileGrid(new IntegerMatrix(new Integer[][] {
+                { 2, 4, 2, 4 },
+                { 4, 2, 8, 2 },
+                { 8, 4, 2, 4 },
+                { 2, 8, 4, 2 }
+        }));
+
+        assertFalse(tileGrid.canBePushed());
+    }
+
     private void assertEqualsWhenPushedInAllDirections(IntegerMatrix original, IntegerMatrix expected) {
         IntegerMatrix originalCopied = new IntegerMatrix(original);
         IntegerMatrix expectedCopied = new IntegerMatrix(expected);

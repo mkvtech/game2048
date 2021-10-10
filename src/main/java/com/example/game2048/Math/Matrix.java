@@ -101,6 +101,24 @@ public class Matrix<T> {
         return set(position, null);
     }
 
+    public boolean isEmptyAt(int i, int j) { return get(i, j) == null; }
+
+    public boolean atLeastOneMatch(MatrixPositionMatcher matcher) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                if (matcher.match(i, j)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public boolean allMatch(MatrixPositionMatcher matcher) {
+        return !atLeastOneMatch((i, j) -> !matcher.match(i, j));
+    }
+
     public Stream<T> toFlatStream() {
         return this.data.stream();
     }

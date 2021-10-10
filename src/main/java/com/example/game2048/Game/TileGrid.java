@@ -2,24 +2,21 @@ package com.example.game2048.Game;
 
 import com.example.game2048.Math.Vector;
 import com.example.game2048.Utilities.Direction;
-import com.example.game2048.Math.Matrix;
 import com.example.game2048.Math.IntegerMatrix;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class TileGrid {
-    private final Matrix<Tile> tileMatrix;
+
+    private final TileMatrix tileMatrix;
 
     public TileGrid(int rows, int columns) {
-        this.tileMatrix = new Matrix<>(rows, columns, () -> null);
+        this.tileMatrix = new TileMatrix(rows, columns);
     }
 
     public TileGrid(IntegerMatrix source) {
-        this.tileMatrix = new Matrix<>(source.getRows(), source.getColumns(), (i, j) -> {
-            int value = source.get(i, j);
-            return value == 0 ? null : new Tile(value);
-        });
+        this.tileMatrix = new TileMatrix(source);
     }
 
     public Stream<Tile> toFlatStream() {
@@ -72,6 +69,12 @@ public class TileGrid {
                 }
             });
         });
+    }
+
+    public boolean canBePushed() {
+        TileMatrixPushChecker checker = new TileMatrixPushChecker(tileMatrix);
+
+        return checker.isPushable();
     }
 
     private void iterateTowards(Direction direction, Consumer<Integer> callback) {
