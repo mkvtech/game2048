@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER" prefHeight="400.0" minWidth="500.0" style="-fx-background-color: #faf8ef;"
+      xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2"
+      fx:controller="com.example.game2048.Pages.Game.GamePage">
+    <VBox minWidth="500.0">
+<!--        This button is temporary and is here to test things. It will be removed soon -->
+        <Button mnemonicParsing="false" prefWidth="245.0" text="Test" onAction="#testAction"/>
+
+        <fx:include fx:id="header" source="Header.fxml"/>
+    </VBox>
+</HBox>
