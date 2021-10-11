@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -103,6 +104,8 @@ public class Matrix<T> {
 
     public boolean isEmptyAt(int i, int j) { return get(i, j) == null; }
 
+    public boolean isEmptyAt(Vector position) { return get(position.getI(), position.getJ()) == null; }
+
     public boolean atLeastOneMatch(MatrixPositionMatcher matcher) {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -113,6 +116,10 @@ public class Matrix<T> {
         }
 
         return false;
+    }
+
+    public boolean allMatch(Predicate<Vector> matcher) {
+        return allMatch((i, j) -> matcher.test(new Vector(i, j)));
     }
 
     public boolean allMatch(MatrixPositionMatcher matcher) {

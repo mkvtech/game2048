@@ -4,7 +4,6 @@ import com.example.game2048.Math.Vector;
 import com.example.game2048.Utilities.Direction;
 import com.example.game2048.Math.IntegerMatrix;
 
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class TileGrid {
@@ -38,17 +37,7 @@ public class TileGrid {
             return false;
         }
 
-        for (int i = 0; i < tileMatrix.getRows(); i++) {
-            for (int j = 0; j < tileMatrix.getColumns(); j++) {
-                Vector position = new Vector(i, j);
-
-                if (this.getValueAt(position) != other.getValueAt(position)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return tileMatrix.allMatch((position) -> this.getValueAt(position) == other.getValueAt(position));
     }
 
     public int getValueAt(Vector position) {
@@ -60,77 +49,15 @@ public class TileGrid {
     public void push(Direction direction) {
         clearMerged();
 
-        iterateTowards(direction.rotateClockwise(), i -> {
-            iterateTowards(direction.getOpposite(), j -> {
-                Vector position = new Vector(i, j);
+        TileMatrixPusher pusher = new TileMatrixPusher(tileMatrix, direction);
 
-                if (tileMatrix.get(position) != null) {
-                    pushTile(position, direction);
-                }
-            });
-        });
+        pusher.push();
     }
 
     public boolean canBePushed() {
         TileMatrixPushChecker checker = new TileMatrixPushChecker(tileMatrix);
 
         return checker.isPushable();
-    }
-
-    private void iterateTowards(Direction direction, Consumer<Integer> callback) {
-        int matrixSizeOnAxis = tileMatrix.getSize().getAxisValue(direction.getAxis());
-
-        int start, end;
-
-        if (direction.isPositive()) {
-            start = 0;
-            end = matrixSizeOnAxis;
-        } else {
-            start = matrixSizeOnAxis - 1;
-            end = -1;
-        }
-
-        for (int i = start; i != end; i += direction.getDelta()) {
-            callback.accept(i);
-        }
-    }
-
-    private void pushTile(Vector position, Direction direction) {
-        Tile currentTile = tileMatrix.get(position);
-
-        Vector farthestAvailablePosition = findFarthestAvailable(position, direction);
-        Vector farthestOccupiedPosition = farthestAvailablePosition.next(direction);
-
-        Tile farthestOccupiedTile = tileMatrix.tryGet(farthestOccupiedPosition);
-        if (isMergeable(currentTile, farthestOccupiedTile)) {
-            merge(position, farthestOccupiedTile);
-        } else if (farthestAvailablePosition != position) { // isMovable
-            tileMatrix.set(farthestAvailablePosition, currentTile); // move
-            tileMatrix.erase(position);
-        }
-    }
-
-    private Vector findFarthestAvailable(Vector origin, Direction direction) {
-        Vector current = origin, next = origin.next(direction);
-
-        while (true) {
-            if (!tileMatrix.isInBounds(next) || tileMatrix.get(next) != null) {
-                return current;
-            }
-
-            current = next;
-            next = current.next(direction);
-        }
-    }
-
-    private boolean isMergeable(Tile source, Tile destination) {
-        return destination != null && destination.isMergeableWith(source);
-    }
-
-    private void merge(Vector sourcePosition, Tile destination) {
-        Tile source = tileMatrix.get(sourcePosition);
-        destination.merge(source);
-        tileMatrix.erase(sourcePosition);
     }
 
     private void clearMerged() {
