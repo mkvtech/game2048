@@ -8,8 +8,10 @@
       fx:controller="com.example.game2048.Pages.Game.GamePage">
     <VBox minWidth="500.0">
 <!--        This button is temporary and is here to test things. It will be removed soon -->
-        <Button mnemonicParsing="false" prefWidth="245.0" text="Test" onAction="#testAction"/>
+        <Button fx:id="testButton" mnemonicParsing="false" prefWidth="245.0" text="Test" onAction="#testAction"/>
 
         <fx:include fx:id="header" source="Header.fxml"/>
+
+        <fx:include fx:id="board" source="Board.fxml" />
     </VBox>
 </HBox>
