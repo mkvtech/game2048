@@ -59,10 +59,10 @@ public class RootController {
 
     private TileGrid newTileGrid() {
         return new TileGrid(new IntegerMatrix(new Integer[][] {
-                { 2, 0, 0, 0 },
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 },
-                { 0, 0, 0, 0 }
+                { 2, 4, 2, 8 },
+                { 4, 2, 4, 8 },
+                { 2, 4, 2, 4 },
+                { 4, 2, 4, 2 }
         }));
     }
 }

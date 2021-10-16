@@ -1,6 +1,7 @@
 package com.example.game2048.Game;
 
 import com.example.game2048.Math.IntegerMatrix;
+import com.example.game2048.Utilities.Direction;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -33,5 +34,21 @@ class TileGridTest {
         }));
 
         assertFalse(tileGrid.canBePushed());
+    }
+
+    @Test
+    public void testPushDoesNothingWhenMatrixIsFull() {
+        IntegerMatrix originalSource = new IntegerMatrix(new Integer[][] {
+                { 4, 2, 4 },
+                { 2, 4, 2 },
+                { 4, 2, 4 }
+        });
+
+        TileGrid original = new TileGrid(originalSource);
+        TileGrid expected = new TileGrid(originalSource);
+
+        original.push(Direction.LEFT);
+
+        assertTrue(original.areTileValuesEqual(expected));
     }
 }

@@ -35,7 +35,7 @@ public class TileGrid {
         TileMatrixPusher pusher = new TileMatrixPusher(tileMatrix, direction);
         pusher.push();
 
-        tileSpawner.spawn();
+        trySpawn();
     }
 
     public boolean canBePushed() {
@@ -50,11 +50,19 @@ public class TileGrid {
 
     public int getColumns() { return tileMatrix.getColumns(); }
 
+    public boolean areTileValuesEqual(TileGrid other) { return tileMatrix.areTileValuesEqual(other.tileMatrix); }
+
     private void clearMerged() {
         this.tileMatrix.forEach(tile -> {
             if (tile != null) {
                 tile.clearMerged();
             }
         });
+    }
+
+    private void trySpawn() {
+        if (tileMatrix.atLeastOneMatch(tileMatrix::isEmptyAt)) {
+            tileSpawner.spawn();
+        }
     }
 }
