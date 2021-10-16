@@ -1,4 +1,12 @@
 
+.new-game-button {
+    -fx-background-color: #8F7A66;
+
+    -fx-text-fill: #F9F6F2;
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
 .tile {
     -fx-background-radius: 3px;
 }

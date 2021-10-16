@@ -29,15 +29,11 @@ public class RootController {
     @FXML
     private BoardController boardController;
 
-    private final TileGrid tileGrid = new TileGrid(new IntegerMatrix(new Integer[][] {
-            { 2, 0, 0, 0 },
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 },
-            { 0, 0, 0, 0 }
-    }));
+    private TileGrid tileGrid = newTileGrid();
 
     public void initialize() {
         boardController.setTileGrid(tileGrid);
+        headerController.onNewGameButtonPressed(this::handleNewGameButtonPress);
     }
 
     public void testAction(ActionEvent actionEvent) {
@@ -53,5 +49,20 @@ public class RootController {
             tileGrid.push(direction);
             boardController.updateGrid();
         }
+    }
+
+    public void handleNewGameButtonPress() {
+        tileGrid = newTileGrid();
+        boardController.setTileGrid(tileGrid);
+        headerController.setScore(0);
+    }
+
+    private TileGrid newTileGrid() {
+        return new TileGrid(new IntegerMatrix(new Integer[][] {
+                { 2, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 },
+                { 0, 0, 0, 0 }
+        }));
     }
 }
