@@ -9,6 +9,7 @@ public class TileMatrixPusher {
 
     private final TileMatrix tileMatrix;
     private final Direction direction;
+    private int score = 0;
 
     public TileMatrixPusher(TileMatrix tileMatrix, Direction direction) {
         this.tileMatrix = tileMatrix;
@@ -22,6 +23,8 @@ public class TileMatrixPusher {
             }
         });
     }
+
+    public int getScore() { return score; }
 
     private void forEachPosition(Consumer<Vector> callback) {
         forEachRow(i -> {
@@ -61,5 +64,6 @@ public class TileMatrixPusher {
         TilePusher tilePusher = new TilePusher(tileMatrix, direction, position);
 
         tilePusher.pushTile();
+        score += tilePusher.getScore();
     }
 }

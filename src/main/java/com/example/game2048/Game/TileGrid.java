@@ -11,6 +11,8 @@ public class TileGrid {
     private final TileMatrix tileMatrix;
     private final TileSpawner tileSpawner;
 
+    private int score = 0;
+
     public TileGrid(int rows, int columns) {
         this.tileMatrix = new TileMatrix(rows, columns);
         this.tileSpawner = new TileSpawner(tileMatrix);
@@ -34,6 +36,7 @@ public class TileGrid {
 
         TileMatrixPusher pusher = new TileMatrixPusher(tileMatrix, direction);
         pusher.push();
+        score += pusher.getScore();
 
         trySpawn();
     }
@@ -43,6 +46,8 @@ public class TileGrid {
 
         return checker.isPushable();
     }
+
+    public int getScore() { return score; }
 
     public Vector getSize() { return tileMatrix.getSize(); }
 

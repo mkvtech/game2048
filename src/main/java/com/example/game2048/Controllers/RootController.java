@@ -37,9 +37,6 @@ public class RootController {
     }
 
     public void testAction(ActionEvent actionEvent) {
-        System.out.println("Test Button was pressed!");
-        headerController.setScore(1);
-        headerController.setBest(1);
     }
 
     public void handleKeyEvent(KeyEvent event) {
@@ -48,6 +45,7 @@ public class RootController {
         if (direction != null) {
             tileGrid.push(direction);
             boardController.updateGrid();
+            headerController.setScore(tileGrid.getScore());
         }
     }
 

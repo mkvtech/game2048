@@ -10,6 +10,8 @@ public class TilePusher {
     private final Vector position;
     private final Tile tile;
 
+    private int score = 0;
+
     public TilePusher(TileMatrix tileMatrix, Direction direction, Vector position) {
         this.tileMatrix = tileMatrix;
         this.direction = direction;
@@ -28,6 +30,10 @@ public class TilePusher {
         } else if (farthestAvailablePosition != position) {
             moveTo(farthestAvailablePosition);
         }
+    }
+
+    public int getScore() {
+        return score;
     }
 
     private Vector findFarthestAvailable() {
@@ -51,6 +57,7 @@ public class TilePusher {
     private void mergeWith(Tile destination) {
         destination.merge(tile);
         erase();
+        score = destination.getValue();
     }
 
     private void moveTo(Vector destination) {

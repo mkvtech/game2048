@@ -22,7 +22,7 @@ class TileMatrixPusherTest {
                 { 2, 0, 0 }
         });
 
-        assertEqualsWhenPushedInAllDirections(original, expected);
+        assertEqualsWhenPushedInAllDirections(original, expected, 0);
     }
 
     @Test
@@ -41,7 +41,7 @@ class TileMatrixPusherTest {
                 { 4, 0, 0, 0 }
         });
 
-        assertEqualsWhenPushedInAllDirections(original, expected);
+        assertEqualsWhenPushedInAllDirections(original, expected, 12);
     }
 
     @Test
@@ -60,10 +60,10 @@ class TileMatrixPusherTest {
                 { 4, 8, 0, 0 }
         });
 
-        assertEqualsWhenPushedInAllDirections(original, expected);
+        assertEqualsWhenPushedInAllDirections(original, expected, 36);
     }
 
-    private void assertEqualsWhenPushedInAllDirections(IntegerMatrix original, IntegerMatrix expected) {
+    private void assertEqualsWhenPushedInAllDirections(IntegerMatrix original, IntegerMatrix expected, int score) {
         IntegerMatrix originalCopied = new IntegerMatrix(original);
         IntegerMatrix expectedCopied = new IntegerMatrix(expected);
 
@@ -79,6 +79,7 @@ class TileMatrixPusherTest {
             TileMatrix expectedTileGrid = new TileMatrix(expectedCopied);
 
             assertTrue(tileMatrix.areTileValuesEqual(expectedTileGrid));
+            assertEquals(pusher.getScore(), score);
         });
     }
 }
