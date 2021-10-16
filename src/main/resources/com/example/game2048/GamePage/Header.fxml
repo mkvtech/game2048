@@ -26,7 +26,8 @@
         </font>
     </Text>
 
-    <Text fill="#776e65" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Join the tiles, get to 2048!"
+    <Text fx:id="gameStateText" fill="#776e65" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="Join the tiles, get to 2048!"
           wrappingWidth="400.0">
         <font>
             <Font name="Arial" size="18.0"/>

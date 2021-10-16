@@ -1,7 +1,7 @@
 package com.example.game2048.Controllers;
 
-import com.example.game2048.Game.TileGrid;
-import com.example.game2048.Math.IntegerMatrix;
+import com.example.game2048.Game.Game;
+import com.example.game2048.Game.GameState;
 import com.example.game2048.Utilities.Direction;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,10 +29,10 @@ public class RootController {
     @FXML
     private BoardController boardController;
 
-    private TileGrid tileGrid = newTileGrid();
+    private final Game game = new Game();
 
     public void initialize() {
-        boardController.setTileGrid(tileGrid);
+        boardController.setTileGrid(game.getTileGrid());
         headerController.onNewGameButtonPressed(this::handleNewGameButtonPress);
     }
 
@@ -40,27 +40,26 @@ public class RootController {
     }
 
     public void handleKeyEvent(KeyEvent event) {
-        Direction direction =  KEYBOARD_CONTROLS.get(event.getCode());
+        if (game.getGameState() == GameState.IN_PROGRESS) {
+            Direction direction = KEYBOARD_CONTROLS.get(event.getCode());
 
-        if (direction != null) {
-            tileGrid.push(direction);
-            boardController.updateGrid();
-            headerController.setScore(tileGrid.getScore());
+            if (direction != null) {
+                handlePush(direction);
+            }
         }
     }
 
-    public void handleNewGameButtonPress() {
-        tileGrid = newTileGrid();
-        boardController.setTileGrid(tileGrid);
-        headerController.setScore(0);
+    private void handlePush(Direction direction) {
+        game.push(direction);
+        boardController.updateGrid();
+        headerController.setScore(game.getCurrentScore());
+        headerController.setBest(game.getBestScore());
+        headerController.updateText(game.getGameState());
     }
 
-    private TileGrid newTileGrid() {
-        return new TileGrid(new IntegerMatrix(new Integer[][] {
-                { 2, 4, 2, 8 },
-                { 4, 2, 4, 8 },
-                { 2, 4, 2, 4 },
-                { 4, 2, 4, 2 }
-        }));
+    public void handleNewGameButtonPress() {
+        game.restart();
+        boardController.setTileGrid(game.getTileGrid());
+        headerController.setScore(0);
     }
 }

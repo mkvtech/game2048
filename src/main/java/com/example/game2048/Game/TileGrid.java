@@ -16,6 +16,9 @@ public class TileGrid {
     public TileGrid(int rows, int columns) {
         this.tileMatrix = new TileMatrix(rows, columns);
         this.tileSpawner = new TileSpawner(tileMatrix);
+
+        tileSpawner.spawn();
+        tileSpawner.spawn();
     }
 
     public TileGrid(IntegerMatrix source) {
@@ -56,6 +59,10 @@ public class TileGrid {
     public int getColumns() { return tileMatrix.getColumns(); }
 
     public boolean areTileValuesEqual(TileGrid other) { return tileMatrix.areTileValuesEqual(other.tileMatrix); }
+
+    public boolean containsValue(int value) {
+        return tileMatrix.toFlatStream().anyMatch(tile -> tile != null && tile.getValue() == value);
+    }
 
     private void clearMerged() {
         this.tileMatrix.forEach(tile -> {
