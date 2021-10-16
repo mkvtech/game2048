@@ -22,6 +22,9 @@ public class TileController extends VBox {
     @FXML
     private Text text;
 
+    private TileGridMeasurements measurements;
+
+    private int previousValue = 0;
     private int currentValue = 0;
 
     public static FXMLLoader instantiate() throws IOException {
@@ -30,15 +33,24 @@ public class TileController extends VBox {
         return loader;
     }
 
-    public void setAppearance(TileGridMeasurements measurements) {
+    public void setMeasurements(TileGridMeasurements measurements) {
+        this.measurements = measurements;
+
         setSize(measurements.getTileSize());
-        setTextMeasurements(measurements);
+        updateTextMeasurements();
     }
 
     public void setTile(int tile) {
-        text.setText(Integer.toString(tile));
-        updateCssClass(tile);
-        currentValue = tile;
+        updateCurrentValue(tile);
+
+        text.setText(Integer.toString(currentValue));
+        updateTextMeasurements();
+        updateCssClass();
+    }
+
+    private void updateCurrentValue(int newValue) {
+        previousValue = currentValue;
+        currentValue = newValue;
     }
 
     private void setSize(double size) {
@@ -46,15 +58,15 @@ public class TileController extends VBox {
         root.setPrefHeight(size);
     }
 
-    private void setTextMeasurements(TileGridMeasurements measurements) {
-        text.setFont(Font.font("Arial", FontWeight.BOLD, measurements.getFontSize()));
+    private void updateTextMeasurements() {
+        text.setFont(Font.font("Arial", FontWeight.BOLD, measurements.getFontSize(currentValue)));
         text.setWrappingWidth(measurements.getTileSize());
         text.setLayoutY(measurements.getTextLayoutY());
     }
 
-    private void updateCssClass(int value) {
+    private void updateCssClass() {
         ObservableList<String> styleClass = root.getStyleClass();
-        styleClass.remove("tile-" + currentValue);
-        styleClass.add("tile-" + value);
+        styleClass.remove("tile-" + previousValue);
+        styleClass.add("tile-" + currentValue);
     }
 }

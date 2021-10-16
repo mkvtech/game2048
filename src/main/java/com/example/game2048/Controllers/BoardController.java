@@ -43,8 +43,8 @@ public class BoardController {
 
         TileController tileController = tileComponent.getController();
 
+        tileController.setMeasurements(measurements);
         tileController.setTile(tileGrid.getValueAt(new Vector(i, j)));
-        tileController.setAppearance(measurements);
 
         tileContainer.add(tileComponent.getRoot(), j, i);
 

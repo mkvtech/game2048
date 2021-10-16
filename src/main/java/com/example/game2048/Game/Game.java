@@ -5,6 +5,7 @@ import com.example.game2048.Utilities.Direction;
 public class Game {
 
     private TileGrid tileGrid = new TileGrid(4, 4);
+
     private int bestScore = 0;
     private GameState gameState = GameState.IN_PROGRESS;
 
