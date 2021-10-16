@@ -25,7 +25,7 @@ public class Tile {
         this.merged = false;
     }
 
-    public boolean isMergeableWith(Tile other) { // https://en.wiktionary.org/wiki/mergeable
+    public boolean isMergeableWith(Tile other) {
         return !this.merged && this.value == other.value;
     }
 

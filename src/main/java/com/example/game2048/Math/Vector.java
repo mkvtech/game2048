@@ -2,10 +2,7 @@ package com.example.game2048.Math;
 
 import com.example.game2048.Utilities.Direction;
 
-// This class can be generalized to Vector2<T>
 public class Vector {
-
-    public static Vector zero = new Vector(0, 0);
 
     private final int i;
     private final int j;
@@ -42,14 +39,6 @@ public class Vector {
 
     public Vector add(Vector other) {
         return new Vector(i + other.i, j + other.j);
-    }
-
-    public Vector subtract(Vector other) {
-        return new Vector(i - other.i, j - other.j);
-    }
-
-    public Vector multiply(int number) {
-        return new Vector(i * number, j * number);
     }
 
     public Vector next(Direction direction) { return add(direction.toVector()); }

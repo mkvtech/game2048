@@ -45,6 +45,4 @@ public enum Direction {
     }
 
     public boolean isPositive() { return this.delta == 1; }
-
-    public boolean isNegative() { return this.delta == -1; }
 }
