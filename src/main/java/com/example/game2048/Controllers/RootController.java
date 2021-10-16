@@ -53,5 +53,6 @@ public class RootController {
         game.restart();
         boardController.setTileGrid(game.getTileGrid());
         headerController.setScore(0);
+        headerController.updateText(game.getGameState());
     }
 }
