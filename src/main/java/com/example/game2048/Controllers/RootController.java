@@ -3,9 +3,7 @@ package com.example.game2048.Controllers;
 import com.example.game2048.Game.Game;
 import com.example.game2048.Game.GameState;
 import com.example.game2048.Utilities.Direction;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
@@ -21,9 +19,6 @@ public class RootController {
     );
 
     @FXML
-    private Button testButton;
-
-    @FXML
     private HeaderController headerController;
 
     @FXML
@@ -34,9 +29,6 @@ public class RootController {
     public void initialize() {
         boardController.setTileGrid(game.getTileGrid());
         headerController.onNewGameButtonPressed(this::handleNewGameButtonPress);
-    }
-
-    public void testAction(ActionEvent actionEvent) {
     }
 
     public void handleKeyEvent(KeyEvent event) {
