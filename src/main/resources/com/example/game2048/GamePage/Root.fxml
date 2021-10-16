@@ -1,20 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <VBox
-        xmlns:fx="http://javafx.com/fxml"
-        fx:controller="com.example.game2048.Controllers.RootController"
         style="-fx-background-color: #faf8ef;"
+        xmlns="http://javafx.com/javafx/11.0.2"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.example.game2048.Controllers.RootController"
 >
     <HBox
-            alignment="CENTER" prefHeight="400.0" minWidth="500.0" style="-fx-background-color: #faf8ef;"
-            xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.2">
+            alignment="CENTER"
+            minWidth="500.0"
+            prefHeight="400.0"
+            style="-fx-background-color: #faf8ef;"
+            xmlns="http://javafx.com/javafx/11.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+    >
         <VBox minWidth="500.0">
             <fx:include fx:id="header" source="Header.fxml"/>
 
             <fx:include fx:id="board" source="Board.fxml"/>
+
+            <Text
+                    fill="#776e65"
+                    strokeType="OUTSIDE"
+                    strokeWidth="0.0"
+                    text="HOW TO PLAY: Use your arrow keys to move the tiles. Tiles with the same number merge into one when they touch. Add them up to reach 2048!"
+                    wrappingWidth="500.0"
+            >
+                <font>
+                    <Font name="Arial" size="18.0"/>
+                </font>
+
+                <VBox.margin>
+                    <Insets top="30.0"/>
+                </VBox.margin>
+            </Text>
         </VBox>
     </HBox>
 </VBox>
