@@ -2,6 +2,7 @@ package com.example.game2048.Game;
 
 import com.example.game2048.Math.IntegerMatrix;
 import com.example.game2048.Math.Matrix;
+import com.example.game2048.Math.Vector;
 
 public class TileMatrix extends Matrix<Tile> {
 
@@ -14,5 +15,19 @@ public class TileMatrix extends Matrix<Tile> {
             int value = source.get(i, j);
             return value == 0 ? null : new Tile(value);
         });
+    }
+
+    public boolean areTileValuesEqual(TileMatrix other) {
+        if (!this.getSize().equals(other.getSize())) {
+            return false;
+        }
+
+        return this.allMatch((position) -> this.getValueAt(position) == other.getValueAt(position));
+    }
+
+    public int getValueAt(Vector position) {
+        Tile tile = get(position);
+
+        return tile == null ? 0 : tile.getValue();
     }
 }

@@ -9,49 +9,33 @@ import java.util.stream.Stream;
 public class TileGrid {
 
     private final TileMatrix tileMatrix;
+    private final TileSpawner tileSpawner;
 
     public TileGrid(int rows, int columns) {
         this.tileMatrix = new TileMatrix(rows, columns);
+        this.tileSpawner = new TileSpawner(tileMatrix);
     }
 
     public TileGrid(IntegerMatrix source) {
         this.tileMatrix = new TileMatrix(source);
+        this.tileSpawner = new TileSpawner(tileMatrix);
     }
 
     public Stream<Tile> toFlatStream() {
         return this.tileMatrix.toFlatStream();
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj.getClass() != this.getClass()) return false;
-
-        TileGrid otherTileGrid = (TileGrid) obj;
-
-        return this.tileMatrix.equals(otherTileGrid.tileMatrix);
-    }
-
-    public boolean areTileValuesEqual(TileGrid other) {
-        if (!this.tileMatrix.getSize().equals(other.tileMatrix.getSize())) {
-            return false;
-        }
-
-        return tileMatrix.allMatch((position) -> this.getValueAt(position) == other.getValueAt(position));
-    }
-
     public int getValueAt(Vector position) {
-        Tile tile = tileMatrix.get(position);
-
-        return tile == null ? 0 : tile.getValue();
+        return tileMatrix.getValueAt(position);
     }
 
     public void push(Direction direction) {
         clearMerged();
 
         TileMatrixPusher pusher = new TileMatrixPusher(tileMatrix, direction);
-
         pusher.push();
+
+        tileSpawner.spawn();
     }
 
     public boolean canBePushed() {
