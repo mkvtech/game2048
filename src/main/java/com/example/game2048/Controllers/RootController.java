@@ -36,14 +36,14 @@ public class RootController {
             { 0, 0, 0, 0 }
     }));
 
+    public void initialize() {
+        boardController.setTileGrid(tileGrid);
+    }
+
     public void testAction(ActionEvent actionEvent) {
         System.out.println("Test Button was pressed!");
         headerController.setScore(1);
         headerController.setBest(1);
-
-
-        boardController.setTileGrid(tileGrid);
-
     }
 
     public void handleKeyEvent(KeyEvent event) {

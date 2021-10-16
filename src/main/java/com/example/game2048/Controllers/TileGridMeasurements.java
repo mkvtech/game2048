@@ -4,7 +4,7 @@ import com.example.game2048.Math.Vector;
 
 public class TileGridMeasurements {
 
-    private static final double FONT_SIZE_FACTOR = 0.3;
+    private static final double FONT_SIZE_FACTOR = 0.5;
     public static final double GAP_FACTOR = 15 / 106.25;
     public static final int BOARD_SIZE = 500;
     public static final int MIN_FONT_SIZE = 16;
@@ -20,7 +20,7 @@ public class TileGridMeasurements {
         tileSize = calculateTileSize(maxMatrixSize);
         gapSize = calculateGapSize(tileSize);
         fontSize = calculateFontSize(tileSize);
-        textLayoutY = calculateTextLayoutY(fontSize, tileSize);
+        textLayoutY = calculateTextLayoutY(tileSize);
     }
 
     public int getFontSize() { return fontSize; }
@@ -43,7 +43,7 @@ public class TileGridMeasurements {
         return Math.max(MIN_FONT_SIZE, (int) Math.round(tileSize * FONT_SIZE_FACTOR));
     }
 
-    private double calculateTextLayoutY(int fontSize, double tileSize) {
-        return (tileSize + fontSize) / 2;
+    private double calculateTextLayoutY(double tileSize) {
+        return tileSize / 2;
     }
 }

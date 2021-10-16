@@ -13,6 +13,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("GamePage/Root.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 800, 800);
+        scene.getStylesheets().add(Application.class.getResource("GamePage/Stylesheets/main.css").toExternalForm());
         stage.setTitle("2048");
         stage.setScene(scene);
         stage.show();

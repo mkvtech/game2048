@@ -1,0 +1,40 @@
+
+.tile {
+    -fx-background-radius: 3px;
+}
+
+.tile-0           { -fx-background-color: #CDC1B4; }
+.tile-0 > Text    { -fx-fill: transparent; }
+
+.tile-2           { -fx-background-color: #eee4da; }
+.tile-2 > Text    { -fx-fill: #776e65; }
+
+.tile-4           { -fx-background-color: #eee1c9; }
+.tile-4 > Text    { -fx-fill: #776e65; }
+
+.tile-8           { -fx-background-color: #f3b27a; }
+.tile-8 > Text    { -fx-fill: #f9f6f2; }
+
+.tile-16          { -fx-background-color: #f69664; }
+.tile-16 > Text   { -fx-fill: #f9f6f2; }
+
+.tile-32          { -fx-background-color: #f77c5f; }
+.tile-32 > Text   { -fx-fill: #f9f6f2; }
+
+.tile-64          { -fx-background-color: #f75f3b; }
+.tile-64 > Text   { -fx-fill: #f9f6f2; }
+
+.tile-128         { -fx-background-color: #edd073; }
+.tile-128 > Text  { -fx-fill: #f9f6f2; }
+
+.tile-256         { -fx-background-color: #edcc62; }
+.tile-256 > Text  { -fx-fill: #f9f6f2; }
+
+.tile-512         { -fx-background-color: #edc950; }
+.tile-512 > Text  { -fx-fill: #f9f6f2; }
+
+.tile-1024        { -fx-background-color: #edc53f; }
+.tile-1024 > Text { -fx-fill: #f9f6f2; }
+
+.tile-2048        { -fx-background-color: #edc22e; }
+.tile-2048 > Text { -fx-fill: #f9f6f2; }

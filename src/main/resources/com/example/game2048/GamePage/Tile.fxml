@@ -15,23 +15,15 @@
         fx:controller="com.example.game2048.Controllers.TileController"
         prefHeight="40.0"
         prefWidth="40.0"
+        styleClass="tile"
 >
-    <Pane
-        style="-fx-background-color: #EEE4DA; -fx-background-radius: 3px;"
-        AnchorPane.bottomAnchor="0.0"
-        AnchorPane.leftAnchor="0.0"
-        AnchorPane.rightAnchor="0.0"
-        AnchorPane.topAnchor="0.0"
-    />
-
     <Text
             fx:id="text"
-            fill="#776e65"
             strokeType="OUTSIDE"
             strokeWidth="0.0"
-            text="2048"
             textAlignment="CENTER"
             wrappingWidth="180.0"
+            textOrigin="CENTER"
     >
         <font>
             <Font
