@@ -12,7 +12,7 @@
         xmlns="http://javafx.com/javafx"
         xmlns:fx="http://javafx.com/fxml"
         fx:id="root"
-        fx:controller="com.example.game2048.Pages.Game.TileController"
+        fx:controller="com.example.game2048.Controllers.TileController"
         prefHeight="40.0"
         prefWidth="40.0"
 >

@@ -1,4 +1,4 @@
-package com.example.game2048.Pages.Game;
+package com.example.game2048.Controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;

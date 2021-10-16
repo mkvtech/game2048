@@ -4,7 +4,7 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane minHeight="200.0" minWidth="500.0" xmlns="http://javafx.com/javafx/11.0.2"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.game2048.Pages.Game.HeaderController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.game2048.Controllers.HeaderController">
     <Text fill="#776e65" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2048"
           wrappingWidth="200.0">
         <font>

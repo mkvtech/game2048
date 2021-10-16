@@ -1,4 +1,4 @@
-package com.example.game2048.Pages.Game;
+package com.example.game2048.Controllers;
 
 import com.example.game2048.Math.Vector;
 

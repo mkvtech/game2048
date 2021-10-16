@@ -1,8 +1,8 @@
-package com.example.game2048.Pages.Game;
+package com.example.game2048.Controllers;
 
-import com.example.game2048.Application;
-import com.example.game2048.Game.TileMatrix;
+import com.example.game2048.Game.TileGrid;
 import com.example.game2048.Math.Matrix;
+import com.example.game2048.Math.Vector;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -12,24 +12,32 @@ import java.io.IOException;
 
 public class BoardController {
 
-    private TileMatrix tileMatrix;
+    private TileGrid tileGrid;
     private Matrix<TileController> tileControllerMatrix;
     private TileGridMeasurements measurements;
 
     @FXML
     private GridPane tileContainer;
 
-    public void setTileMatrix(TileMatrix tileMatrix) {
-        this.tileMatrix = tileMatrix;
+    public void setTileGrid(TileGrid tileGrid) {
+        this.tileGrid = tileGrid;
 
-        measurements = new TileGridMeasurements(tileMatrix.getSize());
+        measurements = new TileGridMeasurements(tileGrid.getSize());
 
         setGridGap(measurements.getGapSize());
         tileControllerMatrix = buildAndRenderMatrix();
     }
 
+    public void updateGrid() {
+        tileControllerMatrix.forEachPosition((i, j) -> {
+            TileController tileController = tileControllerMatrix.get(i, j);
+
+            tileController.setTile(tileGrid.getValueAt(new Vector(i, j)));
+        });
+    }
+
     private Matrix<TileController> buildAndRenderMatrix() {
-        return new Matrix<>(tileMatrix.getRows(), tileMatrix.getColumns(), this::buildAndRenderTile);
+        return new Matrix<>(tileGrid.getRows(), tileGrid.getColumns(), this::buildAndRenderTile);
     }
 
     private TileController buildAndRenderTile(int i, int j) {
@@ -37,7 +45,7 @@ public class BoardController {
 
         TileController tileController = tileComponent.getController();
 
-        tileController.setTile(tileMatrix.get(i, j));
+        tileController.setTile(tileGrid.getValueAt(new Vector(i, j)));
         tileController.setAppearance(measurements);
 
         tileContainer.add(tileComponent.getRoot(), j, i);

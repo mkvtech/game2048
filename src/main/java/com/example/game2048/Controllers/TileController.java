@@ -1,4 +1,4 @@
-package com.example.game2048.Pages.Game;
+package com.example.game2048.Controllers;
 
 import com.example.game2048.Application;
 import com.example.game2048.Game.Tile;
@@ -13,7 +13,7 @@ import java.io.IOException;
 
 public class TileController extends VBox {
 
-    private static final String TILE_FXML = "Pages/Game/Tile.fxml";
+    private static final String TILE_FXML = "GamePage/Tile.fxml";
 
     @FXML
     private AnchorPane root;
@@ -32,8 +32,8 @@ public class TileController extends VBox {
         setTextMeasurements(measurements);
     }
 
-    public void setTile(Tile tile) {
-        text.setText("128");
+    public void setTile(int tile) {
+        text.setText(Integer.toString(tile));
     }
 
     private void setSize(double size) {

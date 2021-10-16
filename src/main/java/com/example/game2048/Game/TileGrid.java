@@ -60,6 +60,12 @@ public class TileGrid {
         return checker.isPushable();
     }
 
+    public Vector getSize() { return tileMatrix.getSize(); }
+
+    public int getRows() { return tileMatrix.getRows(); }
+
+    public int getColumns() { return tileMatrix.getColumns(); }
+
     private void clearMerged() {
         this.tileMatrix.forEach(tile -> {
             if (tile != null) {
