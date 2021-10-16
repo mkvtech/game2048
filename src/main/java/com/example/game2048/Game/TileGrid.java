@@ -30,6 +30,8 @@ public class TileGrid {
         return this.tileMatrix.toFlatStream();
     }
 
+    public int getValueAt(int i, int j) { return tileMatrix.getValueAt(new Vector(i, j)); }
+
     public int getValueAt(Vector position) {
         return tileMatrix.getValueAt(position);
     }

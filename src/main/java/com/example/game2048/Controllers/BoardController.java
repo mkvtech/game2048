@@ -29,10 +29,8 @@ public class BoardController {
     }
 
     public void updateGrid() {
-        tileControllerMatrix.forEachPosition((i, j) -> {
-            TileController tileController = tileControllerMatrix.get(i, j);
-
-            tileController.setTile(tileGrid.getValueAt(new Vector(i, j)));
+        tileControllerMatrix.forEachWithPosition((controller, i, j) -> {
+            controller.setTile(tileGrid.getValueAt(i, j));
         });
     }
 

@@ -5,22 +5,30 @@ import com.example.game2048.Utilities.Direction;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TileGridTest {
     @Test
-    public void testSizeBasedConstructor() {
-        TileGrid tileGrid = new TileGrid(2, 2);
-        List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
-        assertEquals(expected, List.of(0, 0, 0, 0 ));
+    public void testSizeBasedConstructorHasTwoNonEmptyTiles() {
+        TileGrid tileGrid = new TileGrid(4, 4);
+
+        int nonEmptyTiles = (int) tileGrid.toFlatStream().filter(Objects::nonNull).count();
+
+        assertEquals(nonEmptyTiles, 2);
     }
 
     @Test
     public void testSourceBasedConstructor() {
-        IntegerMatrix source = new IntegerMatrix(new Integer[][] { { 1, 2 }, { 3, 4 } });
+        IntegerMatrix source = new IntegerMatrix(new Integer[][] {
+                { 1, 2 },
+                { 3, 4 }
+        });
+
         TileGrid tileGrid = new TileGrid(source);
         List<Integer> expected = tileGrid.toFlatStream().map(tile -> tile == null ? 0 : tile.getValue()).toList();
+
         assertEquals(expected, List.of(1, 2, 3, 4 ));
     }
 

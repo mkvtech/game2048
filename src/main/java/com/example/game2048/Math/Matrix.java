@@ -34,13 +34,8 @@ public class Matrix<T> {
     public Matrix(int rows, int columns, MatrixInitializer<T> initializer) {
         this.rows = rows;
         this.columns = columns;
-
         this.data = new ArrayList<>(this.getContainerSize());
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < columns; j++) {
-                this.data.add(initializer.call(i, j));
-            }
-        }
+        forEachPosition((i, j) -> data.add(initializer.call(i, j)));
     }
 
     public Matrix(T[][] source) {
@@ -88,18 +83,14 @@ public class Matrix<T> {
         return tryGet(position.getI(), position.getJ());
     }
 
-    public T set(int i, int j, T value) {
-        return this.data.set(getIndex(i, j), value);
+    public void set(int i, int j, T value) {
+        data.set(getIndex(i, j), value);
     }
 
-    public T set(Vector v, T value) { return set(v.getI(), v.getJ(), value); }
+    public void set(Vector v, T value) { set(v.getI(), v.getJ(), value); }
 
-    public T erase(int i, int j) {
-        return set(i, j, null);
-    }
-
-    public T erase(Vector position) {
-        return set(position, null);
+    public void erase(Vector position) {
+        set(position, null);
     }
 
     public boolean isEmptyAt(int i, int j) { return get(i, j) == null; }
@@ -130,24 +121,8 @@ public class Matrix<T> {
         return this.data.stream();
     }
 
-    private int getIndex(int i, int j) {
-        return i * this.columns + j;
-    }
-
-    private int getContainerSize() {
-        return this.rows * this.columns;
-    }
-
-    public void fill(T fillValue) {
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.columns; j++) {
-                this.set(i, j, fillValue);
-            }
-        }
-    }
-
     public void forEach(Consumer<T> operation) {
-        forEachPosition((i, j) -> operation.accept(this.get(i, j)));
+        data.forEach(operation);
     }
 
     public void forEachPosition(BiConsumer<Integer, Integer> operation) {
@@ -156,6 +131,10 @@ public class Matrix<T> {
                 operation.accept(i, j);
             }
         }
+    }
+
+    public void forEachWithPosition(MatrixElementWithPositionConsumer<T> operation) {
+        forEachPosition((i, j) -> operation.call(get(i, j), i, j));
     }
 
     public Matrix<T> rotateClockwise() {
@@ -182,8 +161,16 @@ public class Matrix<T> {
         if (obj == this) return true;
         if (obj.getClass() != this.getClass()) return false;
 
-        Matrix<T> otherMatrix = (Matrix<T>) obj;
+        Matrix<?> otherMatrix = (Matrix<?>) obj;
 
         return this.data.equals(otherMatrix.data);
+    }
+
+    private int getIndex(int i, int j) {
+        return i * this.columns + j;
+    }
+
+    private int getContainerSize() {
+        return this.rows * this.columns;
     }
 }
