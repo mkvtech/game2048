@@ -12,15 +12,15 @@
         </font>
     </Text>
 
-    <Text fx:id="score" fill="#776e65" layoutX="300.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="SCORE 0" textAlignment="RIGHT" wrappingWidth="200.0">
+    <Text fx:id="score" fill="#776e65" layoutX="200.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="SCORE 0" textAlignment="RIGHT" wrappingWidth="300.0">
         <font>
             <Font name="Arial Bold" size="32.0"/>
         </font>
     </Text>
 
-    <Text fx:id="best" fill="#776e65" layoutX="300.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0"
-          text="BEST 0" textAlignment="RIGHT" wrappingWidth="200.0">
+    <Text fx:id="best" fill="#776e65" layoutX="200.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0"
+          text="BEST 0" textAlignment="RIGHT" wrappingWidth="300.0">
         <font>
             <Font name="Arial Bold" size="32.0"/>
         </font>
