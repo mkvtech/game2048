@@ -42,4 +42,6 @@ public class Vector {
     }
 
     public Vector next(Direction direction) { return add(direction.toVector()); }
+
+    public Vector swap() { return new Vector(j, i); }
 }

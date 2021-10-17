@@ -63,6 +63,42 @@ class TileMatrixPusherTest {
         assertEqualsWhenPushedInAllDirections(original, expected, 36);
     }
 
+    @Test
+    public void testPushUpWhenMatrixIsVertical() {
+        TileMatrix original = new TileMatrix(new IntegerMatrix(new Integer[][] {
+                { 0 },
+                { 2 }
+        }));
+
+        TileMatrix expected = new TileMatrix(new IntegerMatrix(new Integer[][] {
+                { 2 },
+                { 0 }
+        }));
+
+        TileMatrixPusher pusher = new TileMatrixPusher(original, Direction.UP);
+        pusher.push();
+
+        assertTrue(original.areTileValuesEqual(expected));
+        assertEquals(pusher.getScore(), 0);
+    }
+
+    @Test
+    public void testPushUpWhenMatrixIsHorizontal() {
+        TileMatrix original = new TileMatrix(new IntegerMatrix(new Integer[][] {
+                { 0, 2 }
+        }));
+
+        TileMatrix expected = new TileMatrix(new IntegerMatrix(new Integer[][] {
+                { 2, 0 }
+        }));
+
+        TileMatrixPusher pusher = new TileMatrixPusher(original, Direction.LEFT);
+        pusher.push();
+
+        assertTrue(original.areTileValuesEqual(expected));
+        assertEquals(pusher.getScore(), 0);
+    }
+
     private void assertEqualsWhenPushedInAllDirections(IntegerMatrix original, IntegerMatrix expected, int score) {
         IntegerMatrix originalCopied = new IntegerMatrix(original);
         IntegerMatrix expectedCopied = new IntegerMatrix(expected);
