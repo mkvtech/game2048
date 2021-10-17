@@ -1,13 +1,24 @@
 package com.example.game2048.Game;
 
+import com.example.game2048.Math.IntegerMatrix;
 import com.example.game2048.Utilities.Direction;
 
 public class Game {
 
-    private TileGrid tileGrid = new TileGrid(4, 4);
-
+    private TileGrid tileGrid;
     private int bestScore = 0;
     private GameState gameState = GameState.IN_PROGRESS;
+
+    public Game() {
+        this.tileGrid = new TileGrid(4, 4);
+    }
+
+    public Game(IntegerMatrix valuesMatrix) {
+        this.tileGrid = new TileGrid(valuesMatrix);
+        updateState();
+    }
+
+    public boolean isPlayable() { return gameState == GameState.IN_PROGRESS || gameState == GameState.VICTORY; }
 
     public GameState getGameState() { return gameState; }
 
@@ -19,7 +30,6 @@ public class Game {
 
     public void restart() {
         tileGrid = new TileGrid(4, 4);
-        updateState();
         updateState();
     }
 
@@ -36,10 +46,10 @@ public class Game {
     }
 
     private void updateState() {
-        if (tileGrid.containsValue(2048)) {
+        if (!tileGrid.canBePushed()) {
+            gameState = GameState.ENDED;
+        } else if (tileGrid.containsValue(2048)) {
             gameState = GameState.VICTORY;
-        } else if (!tileGrid.canBePushed()) {
-            gameState = GameState.LOSS;
         } else {
             gameState = GameState.IN_PROGRESS;
         }

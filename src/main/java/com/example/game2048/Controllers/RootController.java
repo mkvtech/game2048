@@ -1,7 +1,6 @@
 package com.example.game2048.Controllers;
 
 import com.example.game2048.Game.Game;
-import com.example.game2048.Game.GameState;
 import com.example.game2048.Utilities.Direction;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -32,7 +31,7 @@ public class RootController {
     }
 
     public void handleKeyEvent(KeyEvent event) {
-        if (game.getGameState() == GameState.IN_PROGRESS) {
+        if (game.isPlayable()) {
             Direction direction = KEYBOARD_CONTROLS.get(event.getCode());
 
             if (direction != null) {
