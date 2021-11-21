@@ -6,7 +6,6 @@ import com.example.game2048.Utilities.Direction;
 public class Game {
 
     private TileGrid tileGrid;
-    private int bestScore = 0;
     private GameState gameState = GameState.IN_PROGRESS;
 
     public Game() {
@@ -41,10 +40,6 @@ public class Game {
         return tileGrid.getScore();
     }
 
-    public int getBestScore() {
-        return bestScore;
-    }
-
     private void updateState() {
         if (!tileGrid.canBePushed()) {
             gameState = GameState.ENDED;
@@ -56,10 +51,6 @@ public class Game {
     }
 
     private void updateScore() {
-        int currentScore = tileGrid.getScore();
-
-        if (currentScore > bestScore) {
-            bestScore = currentScore;
-        }
+        GameStats.getInstance().updateBestScore(tileGrid.getScore());
     }
 }
