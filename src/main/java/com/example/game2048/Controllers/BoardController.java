@@ -1,8 +1,10 @@
 package com.example.game2048.Controllers;
 
+import com.example.game2048.Game.Game;
 import com.example.game2048.Game.TileGrid;
 import com.example.game2048.Math.Matrix;
 import com.example.game2048.Math.Vector;
+import com.example.game2048.patterns.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -10,8 +12,9 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class BoardController {
+public class BoardController implements Observer {
 
+    private Game game;
     private TileGrid tileGrid;
     private Matrix<TileController> tileControllerMatrix;
     private TileGridMeasurements measurements;
@@ -19,8 +22,10 @@ public class BoardController {
     @FXML
     private GridPane tileContainer;
 
-    public void setTileGrid(TileGrid tileGrid) {
-        this.tileGrid = tileGrid;
+    public void setGame(Game game) {
+        this.game = game;
+        this.game.addObserver(this);
+        this.tileGrid = game.getTileGrid();
 
         measurements = new TileGridMeasurements(tileGrid.getSize());
 
@@ -28,7 +33,14 @@ public class BoardController {
         tileControllerMatrix = buildAndRenderMatrix();
     }
 
-    public void updateGrid() {
+    @Override
+    public void update() {
+        updateGrid();
+    }
+
+    private void updateGrid() {
+        tileGrid = game.getTileGrid();
+
         tileControllerMatrix.forEachWithPosition((controller, i, j) -> {
             controller.setTile(tileGrid.getValueAt(i, j));
         });

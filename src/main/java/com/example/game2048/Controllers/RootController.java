@@ -27,7 +27,7 @@ public class RootController {
     private final Game game = new Game();
 
     public void initialize() {
-        boardController.setTileGrid(game.getTileGrid());
+        boardController.setGame(game);
         headerController.onNewGameButtonPressed(this::handleNewGameButtonPress);
         headerController.setBest(GameStats.getInstance().getBestScore());
     }
@@ -44,7 +44,6 @@ public class RootController {
 
     private void handlePush(Direction direction) {
         game.push(direction);
-        boardController.updateGrid();
         headerController.setScore(game.getCurrentScore());
         headerController.setBest(GameStats.getInstance().getBestScore());
         headerController.updateText(game.getGameState());
@@ -52,7 +51,6 @@ public class RootController {
 
     public void handleNewGameButtonPress() {
         game.restart();
-        boardController.setTileGrid(game.getTileGrid());
         headerController.setScore(0);
         headerController.updateText(game.getGameState());
     }

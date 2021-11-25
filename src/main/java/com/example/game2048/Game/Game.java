@@ -2,9 +2,12 @@ package com.example.game2048.Game;
 
 import com.example.game2048.Math.IntegerMatrix;
 import com.example.game2048.Utilities.Direction;
+import com.example.game2048.patterns.observer.Observer;
+import com.example.game2048.patterns.observer.Subject;
 
 public class Game {
 
+    private Subject subject = new Subject();
     private TileGrid tileGrid;
     private GameState gameState = GameState.IN_PROGRESS;
 
@@ -40,6 +43,10 @@ public class Game {
         return tileGrid.getScore();
     }
 
+    public void addObserver(Observer observer) {
+        subject.addObserver(observer);
+    }
+
     private void updateState() {
         if (!tileGrid.canBePushed()) {
             gameState = GameState.ENDED;
@@ -48,6 +55,8 @@ public class Game {
         } else {
             gameState = GameState.IN_PROGRESS;
         }
+
+        subject.update();
     }
 
     private void updateScore() {
