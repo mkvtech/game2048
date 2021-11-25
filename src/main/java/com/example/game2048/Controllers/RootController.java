@@ -1,7 +1,6 @@
 package com.example.game2048.Controllers;
 
 import com.example.game2048.Game.Game;
-import com.example.game2048.Game.GameStats;
 import com.example.game2048.Utilities.Direction;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -28,8 +27,9 @@ public class RootController {
 
     public void initialize() {
         boardController.setGame(game);
+        headerController.setGame(game);
         headerController.onNewGameButtonPressed(this::handleNewGameButtonPress);
-        headerController.setBest(GameStats.getInstance().getBestScore());
+        headerController.update();
     }
 
     public void handleKeyEvent(KeyEvent event) {
@@ -44,14 +44,9 @@ public class RootController {
 
     private void handlePush(Direction direction) {
         game.push(direction);
-        headerController.setScore(game.getCurrentScore());
-        headerController.setBest(GameStats.getInstance().getBestScore());
-        headerController.updateText(game.getGameState());
     }
 
     public void handleNewGameButtonPress() {
         game.restart();
-        headerController.setScore(0);
-        headerController.updateText(game.getGameState());
     }
 }

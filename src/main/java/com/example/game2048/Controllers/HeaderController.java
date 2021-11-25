@@ -1,13 +1,16 @@
 package com.example.game2048.Controllers;
 
+import com.example.game2048.Game.Game;
 import com.example.game2048.Game.GameState;
+import com.example.game2048.Game.GameStats;
+import com.example.game2048.patterns.observer.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 import java.util.Map;
 
-public class HeaderController {
+public class HeaderController implements Observer {
 
     @FXML
     private Text score;
@@ -27,19 +30,33 @@ public class HeaderController {
             GameState.ENDED, "Game Over! You can try again."
     );
 
-    public void setScore(int newScore) {
-        score.setText("SCORE " + newScore);
+    private Game game;
+
+    public void setGame(Game game) {
+        this.game = game;
+        this.game.addObserver(this);
     }
 
-    public void setBest(int newBest) {
-        best.setText("BEST " + newBest);
+    @Override
+    public void update() {
+        setScore(game.getCurrentScore());
+        setBest(GameStats.getInstance().getBestScore());
+        updateText(game.getGameState());
     }
 
     public void onNewGameButtonPressed(Runnable callback) {
         newGameButton.setOnAction(event -> callback.run());
     }
 
-    public void updateText(GameState gameState) {
+    private void setScore(int newScore) {
+        score.setText("SCORE " + newScore);
+    }
+
+    private void setBest(int newBest) {
+        best.setText("BEST " + newBest);
+    }
+
+    private void updateText(GameState gameState) {
         gameStateText.setText(GAME_STATE_TEXT_MAP.get(gameState));
     }
 }
