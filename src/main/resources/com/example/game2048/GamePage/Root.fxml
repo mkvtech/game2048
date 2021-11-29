@@ -8,7 +8,7 @@
         style="-fx-background-color: #faf8ef;"
         xmlns="http://javafx.com/javafx/11.0.2"
         xmlns:fx="http://javafx.com/fxml/1"
-        fx:controller="com.example.game2048.Controllers.RootController"
+        fx:controller="com.example.game2048.controllers.RootController"
 >
     <HBox
             alignment="CENTER"

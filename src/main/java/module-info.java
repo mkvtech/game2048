@@ -4,6 +4,6 @@ module com.example.game2048 {
 
 
     opens com.example.game2048 to javafx.fxml;
-    opens com.example.game2048.Controllers to javafx.fxml;
+    opens com.example.game2048.controllers to javafx.fxml;
     exports com.example.game2048;
 }

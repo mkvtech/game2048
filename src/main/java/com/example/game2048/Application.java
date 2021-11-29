@@ -1,6 +1,6 @@
 package com.example.game2048;
 
-import com.example.game2048.Controllers.RootController;
+import com.example.game2048.controllers.RootController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
